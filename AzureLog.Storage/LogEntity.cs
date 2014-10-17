@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Microsoft.WindowsAzure.Storage.Table;
 
 namespace AzureLog.Storage
@@ -15,10 +14,10 @@ namespace AzureLog.Storage
 
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             var unixTime = Convert.ToInt64((logTimeStamp - epoch).TotalSeconds);
-            RowKey = unixTime.ToString(CultureInfo.InvariantCulture);
+            var prefix = Convert.ToInt32(unixTime % 5);
+            PartitionKey =  string.Format("{0}-{1}", prefix, unixTime);
+            RowKey = Convert.ToString(logTimeStamp.Ticks);
 
-            var prefix = Convert.ToInt32(logTimeStamp.Ticks % 5);
-            PartitionKey =  string.Format("{0}-{1:u}", prefix, logTimeStamp);
 
             LogTimeStamp = LogTimeStamp;
             LoggerName = loggerName;
