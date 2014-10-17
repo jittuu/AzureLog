@@ -1,5 +1,4 @@
 ﻿using System.Configuration;
-using System.Threading.Tasks;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
@@ -17,14 +16,15 @@ namespace AzureLog.Storage
             _cloudTable = cloudTable;
         }
 
-        public static async Task<LogTableClient> CreateAsync(string connectionStringKey, string tableName)
+
+        public static LogTableClient Create(string connectionStringKey, string tableName)
         {
             var storageAccount = GetStorageAccount(connectionStringKey);
             // Create the table client.
             var tableClient = storageAccount.CreateCloudTableClient();
             //create charts table if not exists.
             var cloudTable = tableClient.GetTableReference(tableName);
-            await cloudTable.CreateIfNotExistsAsync();
+            cloudTable.CreateIfNotExists();
 
             return new LogTableClient(connectionStringKey, cloudTable);
         }
@@ -51,10 +51,10 @@ namespace AzureLog.Storage
             return storageAccount;
         }
 
-        public async Task InsertAsync(LogEntity entity)
+        public void Insert(LogEntity entity)
         {
             var insertOperation = TableOperation.Insert(entity);
-            await _cloudTable.ExecuteAsync(insertOperation);
+            _cloudTable.Execute(insertOperation);
         }
     }
 }

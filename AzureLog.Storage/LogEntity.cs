@@ -19,7 +19,7 @@ namespace AzureLog.Storage
             RowKey = Convert.ToString(logTimeStamp.Ticks);
 
 
-            LogTimeStamp = LogTimeStamp;
+            LogTimeStamp = logTimeStamp;
             LoggerName = loggerName;
             Level = level;
             Message = message;
@@ -30,7 +30,7 @@ namespace AzureLog.Storage
 
         }
 
-        public string LogTimeStamp { get; set; }
+        public DateTime LogTimeStamp { get; set; }
         public string Level { get; set; }
         public string LoggerName { get; set; }
         public string Message { get; set; }
