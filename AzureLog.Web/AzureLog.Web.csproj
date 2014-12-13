@@ -103,9 +103,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.5\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="NLog">
-      <HintPath>..\packages\NLog.3.1.0.0\lib\net45\NLog.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -286,16 +283,6 @@
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AzureLog.NLogTarget\AzureLog.NLogTarget.csproj">
-      <Project>{e6dd6fd0-f7a9-4f9d-87be-dd2332492bc2}</Project>
-      <Name>AzureLog.NLogTarget</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AzureLog.Storage\AzureLog.Storage.csproj">
-      <Project>{d948d5c7-443a-4f6c-9664-bdd874b338c5}</Project>
-      <Name>AzureLog.Storage</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

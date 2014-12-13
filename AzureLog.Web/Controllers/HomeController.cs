@@ -1,8 +1,6 @@
 ﻿using AzureLog.Web.Models;
-using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,8 +12,6 @@ namespace AzureLog.Web.Controllers
 {
     public class HomeController : AsyncController
     {
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
-
         [HttpGet]
         public ActionResult Index()
         {
