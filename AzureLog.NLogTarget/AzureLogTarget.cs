@@ -1,17 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-using AzureLog.Storage;
+﻿using AzureLog.Storage;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using NLog.Targets;
 
 namespace AzureLog.NLogTarget
 {
+    [Target("AzureLog")] 
     public class AzureLogTarget : TargetWithLayout
     {
         LogTableClient _client;
 
-        [Required]
+        [RequiredParameter]
         public string ConnectionStringKey { get; set; }
 
-        [Required]
+        [RequiredParameter]
         public string TableName { get; set; }
 
         protected override void InitializeTarget()
