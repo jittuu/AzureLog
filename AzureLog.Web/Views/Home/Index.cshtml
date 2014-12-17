@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<AzureLog.Web.Models.AzureLogEntity>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -6,21 +8,49 @@
     <div class="page-header" id="banner">
         Azure Log Viewer
     </div>
-    <form role="form">
+    @using (Html.BeginForm())
+    {
         <div class="form-group">
             <div class="timestamp">
-                <input type="text" class="form-control" id="from" placeholder="e.g. 2006-01-28 15:04:05" />
+                <input type="text" class="form-control" id="accountName" name="accountName" placeholder="Account Name" value="@ViewBag.AccountName" />
                 <span>-</span>
-                <input type="text" class="form-control" id="to" placeholder="e.g. 2006-01-28 15:04:05" />
+                <input type="text" class="form-control" id="key" name="key" placeholder="Key" value="@ViewBag.Key" />
+                <span>-</span>
+                <input type="text" class="form-control" id="tableName" name="tableName" placeholder="Table Name" value="@ViewBag.TableName" />
             </div>
         </div>
         <div class="form-group">
-            <textarea id="text" class="form-control" rows="3" placeholder="Search (regex)"></textarea>
+            <div class="timestamp">
+                <input type="text" class="form-control" id="from" name="from" placeholder="e.g. 2006-01-28 15:04:05" value="@ViewBag.From" />
+                <span>-</span>
+                <input type="text" class="form-control" id="to" name="to" placeholder="e.g. 2006-01-28 15:04:05" value="@ViewBag.To" />
+            </div>
         </div>
         <div class="form-group">
-            <button type="button" class="btn btn-primary">
+            <textarea id="regex" name="regex" class="form-control" rows="3" placeholder="Search (regex)" >@ViewBag.Regex</textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
                 <span class="glyphicon glyphicon-search"></span> Search
             </button>
         </div>
-</form>
+    }
+</div>
+
+<div class="row">
+    <table>
+        <thead>
+            <tr>
+                <th>Log Messages</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Message</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
