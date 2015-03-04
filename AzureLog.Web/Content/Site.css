@@ -27,6 +27,21 @@ textarea {
     display: inline-block;
 }
 
-textarea#text {
+textarea#regex {
     max-width: none;
+}
+
+ul.log-message {
+    list-style: none;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: small;
+    padding: 0px;
+}
+
+ul.log-message li.error, ul.log-message li.fatal {
+    color: #f22;
+}
+
+ul.log-message li.fatal {
+    font-weight: 600;
 }
