@@ -20,7 +20,7 @@ namespace AzureLog.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(string accountName, string key, string tableName, DateTime from, DateTime to, string regex)
+        public async Task<ActionResult> Index(string accountName, string key, string tableName, DateTime? from, DateTime? to, string regex)
         {
             // Retrieve the storage account from the connection string.
             CloudStorageAccount storageAccount = string.IsNullOrWhiteSpace(accountName) || string.IsNullOrWhiteSpace(key) ?
@@ -33,8 +33,10 @@ namespace AzureLog.Web.Controllers
             CloudTable table = tableClient.GetTableReference(tableName);
 
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var unixFromTime = Convert.ToInt64((from - epoch).TotalSeconds);
-            var unixToTime = Convert.ToInt64((to - epoch).TotalSeconds);
+            DateTime f = from ?? DateTime.UtcNow.AddDays(-1);
+            DateTime t = to ?? DateTime.UtcNow.AddDays(1);
+            var unixFromTime = Convert.ToInt64((f - epoch).TotalSeconds);
+            var unixToTime = Convert.ToInt64((t - epoch).TotalSeconds);
 
             var t0 = ExecuteQueryWithSegmentMode(table, CreateTableQuery(0, unixFromTime, unixToTime));
             var t1 = ExecuteQueryWithSegmentMode(table, CreateTableQuery(1, unixFromTime, unixToTime));
@@ -57,8 +59,8 @@ namespace AzureLog.Web.Controllers
             ViewBag.AccountName = accountName;
             ViewBag.Key = key;
             ViewBag.TableName = tableName;
-            ViewBag.From = from.ToString("yyyy-MM-dd");
-            ViewBag.To = to.ToString("yyyy-MM-dd");
+            ViewBag.From = f.ToString("yyyy-MM-dd HH:mm:ss");
+            ViewBag.To = t.ToString("yyyy-MM-dd HH:mm:ss");
             ViewBag.Regex = regex;
 
             return View(result
