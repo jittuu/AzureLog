@@ -15,8 +15,7 @@ namespace AzureLog.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            // _logger.Info("Home is called!");
-            return View(Enumerable.Empty<AzureLogEntity>());
+            return RedirectToAction("Index", "StorageAccounts");
         }
 
         [HttpPost]
