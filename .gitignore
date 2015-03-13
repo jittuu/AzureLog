@@ -4,3 +4,4 @@
 *.user
 *.nupkg
 packages/
+App_Data
