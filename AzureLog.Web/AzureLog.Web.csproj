@@ -291,6 +291,7 @@
     <Content Include="Views\StorageAccounts\Edit.cshtml" />
     <Content Include="Views\StorageAccounts\Index.cshtml" />
     <Content Include="Views\StorageAccounts\Table.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\Key.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

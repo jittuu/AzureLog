@@ -17,6 +17,7 @@ namespace AzureLog.Web.Models
         [Display(Name="Account Name")]
         public string AccountName { get; set; }
 
+        [UIHint("Key")]
         [StringLength(1024)]
         public string Key { get; set; }
     }

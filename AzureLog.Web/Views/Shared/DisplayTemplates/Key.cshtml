@@ -1,0 +1,6 @@
+﻿@model string
+
+@if (!string.IsNullOrEmpty(Model) && Model.Length > 12)
+{
+    <text>@Model.Substring(0, 12)...</text>
+}
