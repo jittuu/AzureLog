@@ -10,7 +10,7 @@
 <div class="row">
     @using (Html.BeginForm("Table", "StorageAccounts", FormMethod.Get))
     {
-                <div class="form-group">
+        <div class="form-group">
             <div class="timestamp">
                 <input type="text" class="form-control" id="from" name="from" placeholder="e.g. 2006-01-28 15:04:05" value="@Model.From.ToString("yyyy-MM-dd HH:mm:ss")" />
                 <span>-</span>
@@ -28,11 +28,16 @@
     }
 </div>
 
+<span class="badge pull-right">@Model.Results.Count()</span>
+<hr />
+
 <div class="row">
-    <ul class="log-message">
+    <ol class="log-message">
         @foreach (var item in Model.Results)
         {
-            <li class="@item.Level.ToLowerInvariant()">@item.Message</li>
+            <li class="@item.Level.ToLowerInvariant()">
+                <span>@item.Message</span>
+            </li>
         }
-    </ul>
+    </ol>
 </div>

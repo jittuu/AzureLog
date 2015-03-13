@@ -31,17 +31,25 @@ textarea#regex {
     max-width: none;
 }
 
-ul.log-message {
-    list-style: none;
+ol.log-message {
+    list-style-type: decimal;
     font-family: Consolas, 'Courier New', monospace;
     font-size: small;
     padding: 0px;
 }
 
-ul.log-message li.error, ul.log-message li.fatal {
+ol.log-message li {
+    color: #bbb;
+}
+
+ol.log-message li > span {
+    color: #222;
+}
+
+ol.log-message li.error > span, ol.log-message li.fatal > span {
     color: #f22;
 }
 
-ul.log-message li.fatal {
+ol.log-message li.fatal > span {
     font-weight: 600;
 }
