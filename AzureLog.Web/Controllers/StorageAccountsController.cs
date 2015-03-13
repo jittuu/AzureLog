@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using AzureLog.Web.Models;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace AzureLog.Web.Controllers
 {
@@ -48,16 +50,23 @@ namespace AzureLog.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,AccountName,Key")] StorageAccount storageAccount)
+        public async Task<ActionResult> Create([Bind(Include = "Id,AccountName,Key")] StorageAccount account)
         {
             if (ModelState.IsValid)
             {
-                db.StorageAccounts.Add(storageAccount);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (await VerifyStorageAccount(account.AccountName, account.Key))
+                {
+                    db.StorageAccounts.Add(account);
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("*", "Counldn't access to storage account.");
+                }
             }
 
-            return View(storageAccount);
+            return View(account);
         }
 
         // GET: StorageAccounts/Edit/5
@@ -80,15 +89,22 @@ namespace AzureLog.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,AccountName,Key")] StorageAccount storageAccount)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,AccountName,Key")] StorageAccount account)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(storageAccount).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (await VerifyStorageAccount(account.AccountName, account.Key))
+                {
+                    db.Entry(account).State = EntityState.Modified;
+                    await db.SaveChangesAsync();
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ModelState.AddModelError("*", "Counldn't access to storage account.");
+                }
             }
-            return View(storageAccount);
+            return View(account);
         }
 
         // GET: StorageAccounts/Delete/5
@@ -124,6 +140,21 @@ namespace AzureLog.Web.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private async Task<bool> VerifyStorageAccount(string account, string key)
+        {
+            try
+            {
+                var storageAccount = new CloudStorageAccount(new Microsoft.WindowsAzure.Storage.Auth.StorageCredentials(account, key), true);
+                var blob = storageAccount.CreateCloudBlobClient();
+                var _ = await blob.ListContainersSegmentedAsync(null);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
