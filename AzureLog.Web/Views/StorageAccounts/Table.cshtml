@@ -1,0 +1,38 @@
+﻿@model AzureLog.Web.Models.SearchLogResultViewModel
+
+@{
+    ViewBag.Title = "Table";
+}
+
+<h2>Log</h2>
+
+
+<div class="row">
+    @using (Html.BeginForm("Table", "StorageAccounts", FormMethod.Get))
+    {
+                <div class="form-group">
+            <div class="timestamp">
+                <input type="text" class="form-control" id="from" name="from" placeholder="e.g. 2006-01-28 15:04:05" value="@Model.From.ToString("yyyy-MM-dd HH:mm:ss")" />
+                <span>-</span>
+                <input type="text" class="form-control" id="to" name="to" placeholder="e.g. 2006-01-28 15:04:05" value="@Model.To.ToString("yyyy-MM-dd HH:mm:ss")" />
+            </div>
+        </div>
+        <div class="form-group">
+            <textarea id="regex" name="regex" class="form-control" rows="3" placeholder="Search (regex)">@Model.Regex</textarea>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <span class="glyphicon glyphicon-search"></span> Search
+            </button>
+        </div>
+    }
+</div>
+
+<div class="row">
+    <ul class="log-message">
+        @foreach (var item in Model.Results)
+        {
+            <li class="@item.Level.ToLowerInvariant()">@item.Message</li>
+        }
+    </ul>
+</div>

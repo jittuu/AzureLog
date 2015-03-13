@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 using AzureLog.Web.Models;
 using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Auth;
 
 namespace AzureLog.Web.Controllers
 {
@@ -37,7 +34,20 @@ namespace AzureLog.Web.Controllers
             {
                 return HttpNotFound();
             }
-            return View(storageAccount);
+
+            var cloudStorageAccount = new CloudStorageAccount(new StorageCredentials(storageAccount.AccountName, storageAccount.Key), true);
+            var tableClient = cloudStorageAccount.CreateCloudTableClient();
+            var tables = await tableClient.ListTablesAsync();
+
+            var vm = new StorageAccountDetailViewModel
+            {
+                Id = storageAccount.Id,
+                Account = storageAccount.AccountName,
+                Key = storageAccount.Key,
+                Tables = tables.Select(ct => ct.Name).ToList()
+            };
+
+            return View(vm);
         }
 
         // GET: StorageAccounts/Create
@@ -133,6 +143,42 @@ namespace AzureLog.Web.Controllers
             db.StorageAccounts.Remove(storageAccount);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        [Route("storageaccounts/{id:int}/tables/{table}")]
+        public async Task<ActionResult> Table(int id, string table, DateTime? from, DateTime? to, string regex)
+        {
+            StorageAccount storageAccount = await db.StorageAccounts.FindAsync(id);
+            if (storageAccount == null)
+            {
+                return HttpNotFound();
+            }
+
+            var cloudStorageAccount = new CloudStorageAccount(new StorageCredentials(storageAccount.AccountName, storageAccount.Key), true);
+            var tableClient = cloudStorageAccount.CreateCloudTableClient();
+            var cloudTable = tableClient.GetTableReference(table);
+            var f = from ?? DateTime.UtcNow.AddDays(-1);
+            var t = to ?? DateTime.UtcNow;
+
+            var query = new QueryLog
+            {
+                Table = cloudTable,
+                From = f,
+                To = t,
+                Text = regex,
+            };
+
+            var logs = await query.ExecuteAsync();
+            var vm = new SearchLogResultViewModel
+            {
+                Id = id,
+                Table = table,
+                From = f,
+                To = t,
+                Regex = regex,
+                Results = logs,
+            };
+            return View(vm);
         }
 
         protected override void Dispose(bool disposing)

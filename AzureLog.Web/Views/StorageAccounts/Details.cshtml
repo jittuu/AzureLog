@@ -1,4 +1,4 @@
-﻿@model AzureLog.Web.Models.StorageAccount
+﻿@model AzureLog.Web.Models.StorageAccountDetailViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -7,15 +7,13 @@
 <h2>Details</h2>
 
 <div>
-    <h4>StorageAccount</h4>
-    <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.AccountName)
+            @Html.DisplayNameFor(model => model.Account)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AccountName)
+            @Html.DisplayFor(model => model.Account)
         </dd>
 
         <dt>
@@ -25,8 +23,14 @@
         <dd>
             @Html.DisplayFor(model => model.Key)
         </dd>
-
     </dl>
+
+    <ul>
+        @foreach (var t in Model.Tables)
+        {
+        <li>@Html.ActionLink(t, "Table", "StorageAccounts", new { Id = Model.Id, table = t }, null)</li>
+        }
+    </ul>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
