@@ -29,7 +29,8 @@ namespace AzureLog.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StorageAccount storageAccount = await db.StorageAccounts.FindAsync(id);
+            var email = User.Identity.Name;
+            var storageAccount = await db.StorageAccounts.FirstOrDefaultAsync(s => s.Id == id && s.UserEmail == email);
             if (storageAccount == null)
             {
                 return HttpNotFound();
@@ -88,7 +89,8 @@ namespace AzureLog.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StorageAccount storageAccount = await db.StorageAccounts.FindAsync(id);
+            var email = User.Identity.Name;
+            var storageAccount = await db.StorageAccounts.FirstOrDefaultAsync(s => s.Id == id && s.UserEmail == email);
             if (storageAccount == null)
             {
                 return HttpNotFound();
@@ -126,7 +128,8 @@ namespace AzureLog.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            StorageAccount storageAccount = await db.StorageAccounts.FindAsync(id);
+            var email = User.Identity.Name;
+            var storageAccount = await db.StorageAccounts.FirstOrDefaultAsync(s => s.Id == id && s.UserEmail == email);
             if (storageAccount == null)
             {
                 return HttpNotFound();
@@ -139,7 +142,8 @@ namespace AzureLog.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            StorageAccount storageAccount = await db.StorageAccounts.FindAsync(id);
+            var email = User.Identity.Name;
+            var storageAccount = await db.StorageAccounts.FirstOrDefaultAsync(s => s.Id == id && s.UserEmail == email);
             db.StorageAccounts.Remove(storageAccount);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -148,7 +152,8 @@ namespace AzureLog.Web.Controllers
         [Route("storageaccounts/{id:int}/tables/{table}")]
         public async Task<ActionResult> Table(int id, string table, DateTime? from, DateTime? to, string regex)
         {
-            StorageAccount storageAccount = await db.StorageAccounts.FindAsync(id);
+            var email = User.Identity.Name;
+            var storageAccount = await db.StorageAccounts.FirstOrDefaultAsync(s => s.Id == id && s.UserEmail == email);
             if (storageAccount == null)
             {
                 return HttpNotFound();
