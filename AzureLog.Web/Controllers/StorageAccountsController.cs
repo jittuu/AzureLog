@@ -13,6 +13,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 
 namespace AzureLog.Web.Controllers
 {
+    [Authorize]
     public class StorageAccountsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -56,6 +57,7 @@ namespace AzureLog.Web.Controllers
             {
                 if (await VerifyStorageAccount(account.AccountName, account.Key))
                 {
+                    account.UserEmail = User.Identity.Name;
                     db.StorageAccounts.Add(account);
                     await db.SaveChangesAsync();
                     return RedirectToAction("Index");

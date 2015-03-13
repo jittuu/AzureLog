@@ -11,6 +11,9 @@ namespace AzureLog.Web.Models
         public int Id { get; set; }
 
         [StringLength(256)]
+        public string UserEmail { get; set; }
+
+        [StringLength(256)]
         [Display(Name="Account Name")]
         public string AccountName { get; set; }
 

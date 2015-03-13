@@ -195,6 +195,10 @@
     <Compile Include="Migrations\201503130704411_InitialCreate.Designer.cs">
       <DependentUpon>201503130704411_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201503130841319_AddUserEmailToStorageAccounts.cs" />
+    <Compile Include="Migrations\201503130841319_AddUserEmailToStorageAccounts.Designer.cs">
+      <DependentUpon>201503130841319_AddUserEmailToStorageAccounts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -293,6 +297,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201503130704411_InitialCreate.resx">
       <DependentUpon>201503130704411_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503130841319_AddUserEmailToStorageAccounts.resx">
+      <DependentUpon>201503130841319_AddUserEmailToStorageAccounts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
