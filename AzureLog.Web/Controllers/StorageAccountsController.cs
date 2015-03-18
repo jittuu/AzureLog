@@ -18,7 +18,8 @@ namespace AzureLog.Web.Controllers
         // GET: StorageAccounts
         public async Task<ActionResult> Index()
         {
-            var list = await db.StorageAccounts.ToListAsync();
+            var email = User.Identity.Name;
+            var list = await db.StorageAccounts.Where(s => s.UserEmail == email).ToListAsync();
             return View(list);
         }
 
