@@ -5,7 +5,7 @@ namespace AzureLog.Storage
 {
     public class LogEntity : TableEntity
     {
-        public LogEntity(string loggerName, string level, string message, DateTime logTimeStamp)
+        public LogEntity(string loggerName, string level, string message, string layoutMessage, DateTime logTimeStamp)
         {
             if (logTimeStamp.Kind != DateTimeKind.Utc)
             {
@@ -23,6 +23,8 @@ namespace AzureLog.Storage
             LoggerName = loggerName;
             Level = level;
             Message = message;
+            MessageWithLayout = layoutMessage;
+            MachineName = Environment.MachineName;
         }
 
         public LogEntity()
@@ -34,5 +36,8 @@ namespace AzureLog.Storage
         public string Level { get; set; }
         public string LoggerName { get; set; }
         public string Message { get; set; }
+        public string MessageWithLayout { get; set; }
+        public string MachineName { get; set; }
+
     }
 }

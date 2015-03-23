@@ -9,7 +9,7 @@ namespace AzureLog.Storage.Tests
         public void Should_set_prefix_with_unix_timestamp_as_PartitionKey()
         {
             var logTime = new DateTime(2014, 10, 17, 15, 25, 1, DateTimeKind.Utc);
-            var log = new LogEntity("Logger", "Info", "this is message", logTime);
+            var log = new LogEntity("Logger", "Info", "this is message", "layout message", logTime);
 
             Assert.Equal(log.PartitionKey, "1-1413559501");
         }
@@ -18,7 +18,7 @@ namespace AzureLog.Storage.Tests
         public void Should_set_ticks_as_RowKey()
         {
             var logTime = new DateTime(20000002000L, DateTimeKind.Utc);
-            var log = new LogEntity("Logger", "Info", "this is message", logTime);
+            var log = new LogEntity("Logger", "Info", "this is message", "layout message", logTime);
 
             Assert.Equal(log.RowKey, "20000002000");
         }
@@ -27,7 +27,7 @@ namespace AzureLog.Storage.Tests
         public void Should_set_logger()
         {
             var logTime = new DateTime(2014, 10, 17, 15, 25, 0, DateTimeKind.Utc);
-            var log = new LogEntity("Logger", "Info", "this is message", logTime);
+            var log = new LogEntity("Logger", "Info", "this is message", "layout message", logTime);
 
             Assert.Equal(log.LoggerName, "Logger");
         }
@@ -37,7 +37,7 @@ namespace AzureLog.Storage.Tests
         {
             
             var logTime = new DateTime(2014, 10, 17, 15, 25, 0, DateTimeKind.Utc);
-            var log = new LogEntity("Logger", "Info", "this is message", logTime);
+            var log = new LogEntity("Logger", "Info", "this is message", "layout message", logTime);
 
             Assert.Equal(log.Level, "Info");
         }
@@ -47,7 +47,7 @@ namespace AzureLog.Storage.Tests
         {
             
             var logTime = new DateTime(2014, 10, 17, 15, 25, 0, DateTimeKind.Utc);
-            var log = new LogEntity("Logger", "Info", "this is message", logTime);
+            var log = new LogEntity("Logger", "Info", "this is message", "layout message", logTime);
 
             Assert.Equal(log.Message, "this is message");
         }

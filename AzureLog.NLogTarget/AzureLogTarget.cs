@@ -29,8 +29,9 @@ namespace AzureLog.NLogTarget
             {
                 var layoutMessage = Layout.Render(logEvent);
                 var log = new LogEntity(
-                    logEvent.LoggerName, logEvent.Level.Name, 
-                    layoutMessage, logEvent.TimeStamp.ToUniversalTime());
+                    logEvent.LoggerName, logEvent.Level.Name,
+                    logEvent.FormattedMessage, layoutMessage,
+                    logEvent.TimeStamp.ToUniversalTime());
                 _client.Insert(log);
             }
         }
