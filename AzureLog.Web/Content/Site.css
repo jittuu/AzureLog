@@ -41,6 +41,7 @@ ol.log-message {
 ol.log-message li {
     color: #bbb;
     padding-left: 8px;
+    padding-bottom: 6px;
     border-left: 1px solid #eee;
 }
 
