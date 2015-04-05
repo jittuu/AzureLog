@@ -37,7 +37,7 @@ namespace AzureLog.Web.Models
                 var reg = new Regex(Text);
                 list = list.Where(l => reg.IsMatch(l.Message));
             }
-            return list.OrderBy(l => l.LogTimeStamp).ToList();
+            return list.ToList().OrderBy(l => l.LogTimeStamp).ToList();
         }
 
         private static TableQuery<AzureLogEntity> CreateTableQuery(int partition, long unixFromTime, long unixToTime)
