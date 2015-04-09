@@ -5,21 +5,21 @@ namespace AzureLog.Storage
 {
     public class LogEntity : TableEntity
     {
-        public LogEntity(string loggerName, string level, string message, string layoutMessage, DateTime logTimeStamp)
+        public LogEntity(string loggerName, string level, string message, string layoutMessage, DateTime logTimestamp)
         {
-            if (logTimeStamp.Kind != DateTimeKind.Utc)
+            if (logTimestamp.Kind != DateTimeKind.Utc)
             {
-                throw new ArgumentException("logTimeStamp must be UTC.", "logTimeStamp");
+                throw new ArgumentException("logTimestamp must be UTC.", "logTimestamp");
             }
 
             var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-            var unixTime = Convert.ToInt64((logTimeStamp - epoch).TotalSeconds);
+            var unixTime = Convert.ToInt64((logTimestamp - epoch).TotalSeconds);
             var prefix = Convert.ToInt32(unixTime % 5);
             PartitionKey =  string.Format("{0}-{1}", prefix, unixTime);
-            RowKey = Convert.ToString(logTimeStamp.Ticks);
+            RowKey = Convert.ToString(logTimestamp.Ticks);
 
 
-            LogTimeStamp = logTimeStamp;
+            LogTimestamp = logTimestamp;
             LoggerName = loggerName;
             Level = level;
             Message = message;
@@ -32,7 +32,7 @@ namespace AzureLog.Storage
 
         }
 
-        public DateTime LogTimeStamp { get; set; }
+        public DateTime LogTimestamp { get; set; }
         public string Level { get; set; }
         public string LoggerName { get; set; }
         public string Message { get; set; }

@@ -8,7 +8,7 @@ namespace AzureLog.Web.Models
 {
     public class AzureLogEntity : TableEntity
     {
-        public string LogTimeStamp { get; set; }
+        public DateTime LogTimestamp { get; set; }
 
         public string Level { get; set; }
 
