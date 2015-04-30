@@ -43,7 +43,7 @@
     <ul class="log-message">
         @foreach (var item in Model)
         {
-            <li class="@item.Level.ToLowerInvariant()">@item.Message</li>
+            <li class="@item.Level.ToLowerInvariant()">@item.MessageWithLayout</li>
         }
     </ul>
 </div>
