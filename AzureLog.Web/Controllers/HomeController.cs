@@ -63,7 +63,7 @@ namespace AzureLog.Web.Controllers
             ViewBag.Regex = regex;
 
             return View(result
-                .Where(r => reg.Matches(r.Message).Count > 0)
+                .Where(r => reg.Matches(r.MessageWithLayout).Count > 0)
                 .OrderBy(r => r.Timestamp));
         }
 
