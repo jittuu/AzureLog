@@ -164,7 +164,7 @@ namespace AzureLog.Web.Controllers
             var tableClient = cloudStorageAccount.CreateCloudTableClient();
             var cloudTable = tableClient.GetTableReference(table);
             var f = from ?? DateTime.UtcNow.AddDays(-1);
-            var t = to ?? DateTime.UtcNow;
+            var t = to ?? DateTime.UtcNow.AddDays(1);
 
             var query = new QueryLog
             {
