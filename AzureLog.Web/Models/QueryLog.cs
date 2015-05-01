@@ -35,7 +35,7 @@ namespace AzureLog.Web.Models
             if (!string.IsNullOrWhiteSpace(Text))
             {
                 var reg = new Regex(Text);
-                list = list.Where(l => reg.IsMatch(l.Message));
+                list = list.Where(l => reg.IsMatch(l.MessageWithLayout));
             }
             return list.OrderBy(l => l.LogTimestamp).ToList();
         }
